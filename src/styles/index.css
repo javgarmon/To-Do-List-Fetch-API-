@@ -1,12 +1,50 @@
+body {
+    background-image: url("https://img.freepik.com/foto-gratis/fondo-madera-madera-textura-patron-wallpaper-concepto_53876-14103.jpg?w=1380&t=st=1674150934~exp=1674151534~hmac=e1458f39f52d9b81f23bd1e03b5b94eec152166786e217156f22465900189f6b");
+}
 
-/* 
+h1 {
+    margin-top: 30px;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+ul {
+    cursor: pointer;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
-*/
+li {
+    background: rgba(255, 255, 255, 0.801);
+    padding-left: 10px;
+    line-height: 2em;
+    margin: 0;
+    color: #666;
+    border-radius: 5px;
+    margin-bottom: 2px;
+}
+
+span {
+    background: tomato;
+    height: 35px;
+    width: 0;
+    margin-right: 10px;
+    margin-left: -10px;
+    text-align: center;
+    color: white;
+    opacity: 0;
+    transition: 0.2s linear;
+    float: left;
+}
+
+li:hover span {
+    opacity: 1;
+    width: 40px;
+}
+
+i.fa-trash {
+    margin: 7px;
+}
+
+p {
+    font-weight: bold;
+}
