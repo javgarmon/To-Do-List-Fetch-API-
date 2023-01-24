@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-
 const toDoList = () => {
 
 // Creo los estados para la entrada de valores (inputValue) y para la lista de tareas (taskList)
-	const [taskList, setTaskList] = useState([])
-	const [inputValue, setInputValue] = useState("")
+const [inputValue, setInputValue] = useState("")
+const [taskList, setTaskList] = useState([])
 
 // Creación del usuario
 	function crearUsuario() {
@@ -32,20 +31,20 @@ const toDoList = () => {
 	}
 
 // Función para enviar la lista de tareas del usuario
-	function putList(){
-		fetch('https://assets.breatheco.de/apis/fake/todos/user/javgarmon',{
+	const putList = async (taskList) => {
+		try {
+			await fetch('https://assets.breatheco.de/apis/fake/todos/user/javgarmon',{
 			method: 'PUT', 
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(taskList) 
 		})
-		.then((response)=>response.json())
-		.then((data)=>console.log(data))
-		.catch((err)=>console.log(err))
+		} catch (error) {
+			console.log(error)
+		}
+		
 	}
-
-
 
 // Función useEffect
 	useEffect(() => {
@@ -55,15 +54,22 @@ const toDoList = () => {
 		console.log("Hasta aquí ok");
 	}, [])
 
-
+	useEffect(() =>{
+		if (taskList.length >0) {
+			putList(taskList)
+		}
+	}, [taskList])
 
 // Función para manejar la entrada de valores
-	const handleInputChange = (e) => {
+const handleInputChange = (e) => {
+	if (e.key === "Enter"){	
 		if (inputValue !== "") {
-				setInputValue(e.target.value)
+				setTaskList([...taskList, {label:inputValue, done:false}])
+				setInputValue("")
 			} 
 		}
-
+	}
+		
 // Función para manejar la eliminación de elementos de la lista de tareas
 	const handleRemoveTask = (index) => {
 		const updatedTask = [...taskList];
@@ -72,19 +78,11 @@ const toDoList = () => {
 		console.log(taskList)
 	}
 
-// Función para manejar el envío de datos del formulario
-	const handleSubmitForm = (e) => {
-		e.preventDefault()
-		setTaskList([...taskList, {label:inputValue, done:false}])         //detiene comportamiento predeterminado del formulario
-		setInputValue("")
-		putList();
-	}
-
 	return (
 		<>
 		<div className="text-center">
 			<h1>To-Do List</h1>
-			<form className="container" onSubmit={handleSubmitForm}>
+			<div className="container">
 				<div className="mb-3">
 {/* Input para añadir tareas a la lista */}
 					<input type="text" className="form-control" id="exampleFormControlInput1" placeholder="Add a task and press Enter" 
@@ -92,7 +90,7 @@ const toDoList = () => {
 						value={inputValue}
 						onKeyDown={handleInputChange} />
 				</div>
-			</form>
+			</div>
 {/* Lista donde se van añadiento las tareas */}
 			<div className="container">{console.log(taskList)}
 				<ul className="list-group">
